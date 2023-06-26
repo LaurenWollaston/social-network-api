@@ -49,7 +49,6 @@ localhost:3001/api/thoughts/:thoughtId/reactions/:reactionId - Deletes a reactio
 `
 
 
-Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/fraction/readme-boilerplate/compare/).
 
 [Demo video](https://drive.google.com/file/d/1_nvjkh_2PMq4J9SQS5XKGH1B7utw09GU/view): https://drive.google.com/file/d/1_nvjkh_2PMq4J9SQS5XKGH1B7utw09GU/view
 
