@@ -47,6 +47,11 @@ module.exports = {
     try {
       const { username, thoughtText } = req.body;
       const thought = await Thought.create({username, thoughtText});
+      //The thought is created now, but I need to add something that pushes the thought id to the thoughts array of the user whose username matches.
+      const updateUser = await User.findOneAndUpdate(
+        {username:username},
+        { $push: { thoughts: thought._id  } },
+      );
       res.json(thought);
     } catch (err) {
       res.status(500).json(err);

@@ -37,7 +37,7 @@ module.exports = {
 
       res.json({
         user,
-        //We're gonna want to insert the other things like thoughts and reactions here if they're not already there. Not going to think about it until I have to cross that bridge.
+       
       });
     } catch (err) {
       console.log(err);
