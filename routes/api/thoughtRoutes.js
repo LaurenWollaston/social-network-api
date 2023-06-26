@@ -18,8 +18,10 @@ router.route('/:thoughtId').get(getThought).delete(deleteThought).put(updateThou
 
 
 // /api/thoughts/:thoughtId/reactions
-// posting requires a username and a  reactionBody. Delete requires the _id of the reaction. 
-router.route('/:thoughtId/reactions').post(addReaction).delete(removeReaction);
+// posting requires a username and a  reactionBody.
+// Deletion requires a post with the _id of the reaction in the body. 
+router.route('/:thoughtId/reactions').post(addReaction);
+router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
 
 
 module.exports = router;
