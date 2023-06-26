@@ -66,7 +66,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a thought 
+  // Delete a user 
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndRemove({ _id: req.params.userId });
@@ -75,19 +75,15 @@ module.exports = {
         return res.status(404).json({ message: 'No user exists with this id.' })
       }
 
-      for (i=0;i<user.thoughts;i++){
-        const thoughtForRemoval = await Thought.find(
-          { _id: user.thoughts[i] },
-          { $pull: { _id: user.thoughts[i] } },
-          { new: true }
-        );
-      }
-
-      if (user.thoughts==[]) {
-        return res.status(404).json({
-          message: 'This user has no thoughts.',
-        });
-      }
+      user.thoughts.forEach(thought => {
+        Thought.findOneAndDelete(
+          { _id: thought },
+        )
+          .exec()
+          .catch(err => {
+            console.error('Error removing users thoughts:', err);
+          });
+      });
 
       res.json({ message: 'User successfully deleted' });
     } catch (err) {

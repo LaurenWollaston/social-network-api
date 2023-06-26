@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const reactionSchema = require('./Reaction')
+const reactionSchema = require('./Reaction');
+const User= require('./User');
 
 const thoughtSchema = new mongoose.Schema({
   thoughtText: { type: String, required: true,maxLength: 280, minLength:1},
@@ -27,20 +28,28 @@ Thought.find({})
   .exec()
   .then(collection => {
     if (collection.length === 0) {
-      Thought
-        .insertMany(
-          [
-            {thoughtText: 'Apple',username: 'ตา'},
-            { thoughtText: 'Peach', username: 'ตา' },
-            { thoughtText: 'Grape', username:'ตา' },
-            { thoughtText: 'Pear', username:'ตา' },
-            { thoughtText: 'Banana', username:'ตา' },
-            { thoughtText: 'Pineapple', username:'ตา' },
-            { thoughtText: 'Mango', username:'ตา' },
-            { thoughtText: 'Lime', username:'ตา'},
-          ]
-        )
-        .catch(err => handleError(err));
+      Thought.insertMany([
+        { thoughtText: 'Apple', username: 'ตา' },
+        { thoughtText: 'Peach', username: 'ตา' },
+        { thoughtText: 'Grape', username: 'ตา' },
+        { thoughtText: 'Pear', username: 'ตา' },
+        { thoughtText: 'Banana', username: 'ตา' },
+        { thoughtText: 'Pineapple', username: 'ตา' },
+        { thoughtText: 'Mango', username: 'ตา' },
+        { thoughtText: 'Lime', username: 'ตา' },
+      ]).then(thoughts => {
+        thoughts.forEach(thought => {
+          User.findOneAndUpdate(
+            { username: thought.username },
+            { $push: { thoughts: thought._id } },
+            { new: true }
+          )
+            .exec()
+            .catch(err => {
+              console.error('Error updating user:', err);
+            });
+        });
+      }).catch(err => handleError(err));
     }
   });
 
